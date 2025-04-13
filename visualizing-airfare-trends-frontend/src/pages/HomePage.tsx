@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CalendarComponent from "../components/CalendarComponent";
 import LocationSelector from "../components/LocationSelector";
 import USAFlightMap from "../components/USAFlightMap";
+import PricingTrendsPage from "./PricingTrendsPage";
 import "./HomePage.css";
 
 const HomePage: React.FC = () => {
@@ -12,8 +13,11 @@ const HomePage: React.FC = () => {
   });
 
   // Location state
-  const [departureLocation, setDepartureLocation] = useState("SFO (San Francisco)");
-  const [arrivalLocation, setArrivalLocation] = useState("LGA (New York City)");
+  const [departureLocation, setDepartureLocation] = useState("LAX (Los Angeles)");
+  const [arrivalLocation, setArrivalLocation] = useState("ORD (Chicago)");
+  
+  // Page navigation state
+  const [showPricingTrends, setShowPricingTrends] = useState(false);
 
   const handleDateChange = (range: { startDate: Date; endDate: Date }) => {
     setDateRange(range);
@@ -37,14 +41,33 @@ const HomePage: React.FC = () => {
   };
 
   const handleSearch = () => {
-    // Implement search functionality
-    console.log("Searching for flights:", {
+    // Navigate to pricing trends page
+    setShowPricingTrends(true);
+    console.log("Navigating to pricing trends page with:", {
       departure: departureLocation,
       arrival: arrivalLocation,
       dates: dateRange
     });
   };
 
+  const handleBackToSearch = () => {
+    setShowPricingTrends(false);
+  };
+
+  // Render the pricing trends page if showPricingTrends is true
+  if (showPricingTrends) {
+    return (
+      <PricingTrendsPage
+        departureLocation={departureLocation}
+        arrivalLocation={arrivalLocation}
+        dateRange={dateRange}
+        onDateChange={handleDateChange}
+        onBack={handleBackToSearch}
+      />
+    );
+  }
+
+  // Otherwise render the search page
   return (
     <div className="homepage-container">
       <div className="homepage-content">
@@ -60,7 +83,10 @@ const HomePage: React.FC = () => {
         {/* MAIN CONTENT (Calendar + Location) */}
         <div className="homepage-columns">
           <div className="calendar-column">
-            <CalendarComponent onDateChange={handleDateChange} />
+            <CalendarComponent 
+              onDateChange={handleDateChange}
+              initialDateRange={dateRange}
+            />
           </div>
 
           <div className="location-column">

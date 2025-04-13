@@ -1,0 +1,301 @@
+.pricing-trends-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #f0f8ff;
+    min-height: 100vh;
+  }
+  
+  .pricing-trends-header {
+    margin-bottom: 24px;
+  }
+  
+  .pricing-trends-header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 16px 0 8px;
+  }
+  
+  .selected-date {
+    color: #666;
+    margin-bottom: 16px;
+  }
+  
+  .back-button {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+  }
+  
+  .back-button:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .pricing-trends-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .pricing-trends-row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  
+  @media (max-width: 900px) {
+    .pricing-trends-row {
+      flex-direction: column;
+    }
+  }
+  
+  /* Calendar Section */
+  .calendar-section, 
+  .chart-section, 
+  .prediction-section, 
+  .metrics-section, 
+  .seasonal-trends-section {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    flex: 1;
+  }
+  
+  .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .calendar-header h2 {
+    font-size: 18px;
+    margin: 0;
+  }
+  
+  .calendar-nav-btn,
+  .chart-nav-btn {
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .calendar-nav-btn:hover,
+  .chart-nav-btn:hover {
+    background-color: #e8e8e8;
+  }
+  
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+  }
+  
+  .weekday-header {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    padding: 8px 0;
+  }
+  
+  .calendar-day {
+    text-align: center;
+    font-size: 14px;
+    padding: 8px 0;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .calendar-day:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .calendar-day.prev-month,
+  .calendar-day.next-month {
+    color: #ccc;
+  }
+  
+  .calendar-day.selected {
+    background-color: #0066ff;
+    color: white;
+  }
+  
+  .calendar-day.highlight {
+    background-color: #e6f0ff;
+    color: #0066ff;
+  }
+  
+  /* Chart Sections */
+  .chart-section,
+  .seasonal-trends-section {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .chart-section h2,
+  .seasonal-trends-section h2,
+  .prediction-section h2,
+  .metrics-section h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 18px;
+  }
+  
+  .chart {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  
+  .chart-controls {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  .chart-nav-btn {
+    pointer-events: auto;
+  }
+  
+  .chart-bars {
+    display: flex;
+    height: 250px;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 24px;
+    margin-top: 16px;
+  }
+  
+  .chart-bar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    margin: 0 4px;
+  }
+  
+  .bar-value {
+    position: absolute;
+    top: -20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+  }
+  
+  .bar-fill {
+    width: 100%;
+    background-color: #b3d1ff;
+    border-radius: 4px 4px 0 0;
+    height: 100%;
+  }
+  
+  .chart-bar.highlighted .bar-fill {
+    background-color: #0066ff;
+  }
+  
+  .bar-label {
+    font-size: 12px;
+    margin-top: 8px;
+    color: #666;
+  }
+  
+  /* Prediction Section */
+  .prediction-section {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .event-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .event-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  
+  .apply-button {
+    background-color: #0066ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  
+  .apply-button:hover {
+    background-color: #0052cc;
+  }
+  
+  .prediction-result {
+    padding: 16px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+  }
+  
+  .prediction-result p {
+    margin: 0;
+    font-size: 16px;
+  }
+  
+  /* Metrics Section */
+  .metrics-section {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .metrics-content {
+    background-color: #f5f9ff;
+    padding: 16px;
+    border-radius: 4px;
+    flex: 1;
+  }
+  
+  .metrics-content h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 16px;
+    color: #0066ff;
+  }
+  
+  .metric-item {
+    display: flex;
+    margin-bottom: 8px;
+  }
+  
+  .metric-label {
+    font-weight: 600;
+    color: #444;
+    margin-right: 8px;
+  }
+  
+  .metric-value {
+    color: #666;
+  }
