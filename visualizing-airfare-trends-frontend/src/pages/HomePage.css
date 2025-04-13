@@ -1,0 +1,62 @@
+/* Entire page background */
+.homepage-container {
+    background-color: #f5f7fa;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* This container controls the fixed width of the entire layout */
+  .homepage-content {
+    max-width: 900px; /* Adjust as you like (800, 1000, etc.) */
+    margin: 0 auto;   /* center horizontally */
+    padding: 16px;
+  }
+  
+  /* MAP SECTION
+     - By default, the map image can fill the container’s width.
+     - If you want the map narrower than the rest, give .map-image a smaller max-width.
+  */
+  .map-section {
+    text-align: center; /* optional, ensures the image is visually centered */
+    margin-bottom: 24px;
+  }
+  
+  .map-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* If you want the map narrower than the container, uncomment:
+       max-width: 700px;
+       margin: 0 auto;
+    */
+    object-fit: cover;
+  }
+  
+  /* LAYOUT for Calendar and Location columns within the fixed-width container */
+  .homepage-columns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 16px;
+  }
+  
+  .calendar-column {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  .location-column {
+    width: 100%;
+  }
+  
+  /* On larger screens, do side-by-side columns */
+  @media (min-width: 768px) {
+    .calendar-column {
+      width: 60%;
+    }
+    .location-column {
+      width: 35%;
+    }
+  }
+  

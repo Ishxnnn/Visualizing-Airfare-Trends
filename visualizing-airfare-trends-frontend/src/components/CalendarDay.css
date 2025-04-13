@@ -1,0 +1,49 @@
+.day-container {
+    width: 36px;
+    height: 36px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .day-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .day-text {
+    font-size: 14px;
+    color: #000;
+  }
+  
+  .today-circle {
+    background-color: #4a80f0;
+  }
+  
+  .today-text {
+    color: #fff;
+    font-weight: 600;
+  }
+  
+  .other-month-circle {
+    opacity: 0.5;
+  }
+  
+  .other-month-text {
+    color: #888;
+  }
+  
+  .event-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    background-color: #4a80f0;
+    position: absolute;
+    bottom: 2px;
+  }
+  
