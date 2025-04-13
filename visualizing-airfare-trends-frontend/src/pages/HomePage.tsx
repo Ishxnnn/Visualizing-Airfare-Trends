@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CalendarComponent from "../components/CalendarComponent";
 import LocationSelector from "../components/LocationSelector";
+import USAFlightMap from "../components/USAFlightMap";
 import "./HomePage.css";
 
 const HomePage: React.FC = () => {
@@ -29,6 +30,12 @@ const HomePage: React.FC = () => {
     console.log("Arrival location changed to:", location);
   };
 
+  const handleRouteSelect = (departure: string, arrival: string) => {
+    setDepartureLocation(departure);
+    setArrivalLocation(arrival);
+    console.log("Route selected:", { departure, arrival });
+  };
+
   const handleSearch = () => {
     // Implement search functionality
     console.log("Searching for flights:", {
@@ -43,10 +50,10 @@ const HomePage: React.FC = () => {
       <div className="homepage-content">
         {/* MAP SECTION */}
         <div className="map-section">
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/975fe16f5f360709c551a1e5357c3de4066e3d0c?placeholderIfAbsent=true&apiKey=eafb45c2a494467c8e1296db52df8a5e"
-            alt="Header Map"
-            className="map-image"
+          <USAFlightMap 
+            selectedDeparture={departureLocation}
+            selectedArrival={arrivalLocation}
+            onRouteSelect={handleRouteSelect}
           />
         </div>
 
