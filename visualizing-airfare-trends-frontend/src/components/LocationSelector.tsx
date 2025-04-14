@@ -1,9 +1,17 @@
 import React from 'react';
 import './LocationSelector.css';
 
+interface Airport {
+  code: string;
+  name: string;
+}
+
 interface LocationSelectorProps {
   departureLocation: string;
   arrivalLocation: string;
+  airports: Airport[];
+  availableDestinations: string[]; // Airports available for the selected departure
+  selectedRoutePassengers?: number; // Add this prop for passenger count
   onDepartureChange?: (location: string) => void;
   onArrivalChange?: (location: string) => void;
   onSearch?: () => void;
@@ -12,6 +20,9 @@ interface LocationSelectorProps {
 const LocationSelector: React.FC<LocationSelectorProps> = ({
   departureLocation,
   arrivalLocation,
+  airports,
+  availableDestinations,
+  selectedRoutePassengers,
   onDepartureChange,
   onArrivalChange,
   onSearch
@@ -34,19 +45,20 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
     }
   };
 
-  // Sample airport options - you would likely fetch these from an API
-  const airports = [
-    { code: 'SFO', name: 'San Francisco' },
-    { code: 'LAX', name: 'Los Angeles' },
-    { code: 'JFK', name: 'New York JFK' },
-    { code: 'LGA', name: 'New York LaGuardia' },
-    { code: 'ORD', name: 'Chicago' },
-    { code: 'MIA', name: 'Miami' },
-    { code: 'DFW', name: 'Dallas' },
-    { code: 'DEN', name: 'Denver' },
-    { code: 'SEA', name: 'Seattle' },
-    { code: 'BOS', name: 'Boston' }
-  ];
+  // Check if departure is selected (not the placeholder)
+  const isDepartureSelected = departureLocation !== 'Select departure';
+  
+  // Check if both departure and arrival are selected
+  const isRouteSelected = departureLocation !== 'Select departure' && 
+                          arrivalLocation !== 'Select arrival';
+  
+  // Get the departure airport code
+  const departureCode = isDepartureSelected ? departureLocation.split(' ')[0] : '';
+
+  // Format passenger number with commas
+  const formatNumber = (num: number) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
 
   return (
     <div className="location-selector">
@@ -58,6 +70,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
             onChange={handleDepartureChange}
             className="location-select"
           >
+            <option value="Select departure">Select departure</option>
             {airports.map(airport => (
               <option key={airport.code} value={`${airport.code} (${airport.name})`}>
                 {airport.code} ({airport.name})
@@ -74,18 +87,39 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
             value={arrivalLocation}
             onChange={handleArrivalChange}
             className="location-select"
+            disabled={!isDepartureSelected}
           >
-            {airports.map(airport => (
-              <option key={airport.code} value={`${airport.code} (${airport.name})`}>
-                {airport.code} ({airport.name})
-              </option>
-            ))}
+            <option value="Select arrival">Select arrival</option>
+            {isDepartureSelected && 
+              airports
+                .filter(airport => 
+                  airport.code !== departureCode && 
+                  availableDestinations.includes(airport.code)
+                )
+                .map(airport => (
+                  <option key={airport.code} value={`${airport.code} (${airport.name})`}>
+                    {airport.code} ({airport.name})
+                  </option>
+                ))
+            }
           </select>
         </div>
       </div>
 
+      {/* Passenger count display */}
+      {isRouteSelected && selectedRoutePassengers !== undefined && (
+        <div className="passenger-count-display">
+          <div className="passenger-count-label">Total Passengers</div>
+          <div className="passenger-count-value">{formatNumber(selectedRoutePassengers)}</div>
+        </div>
+      )}
+
       <div className="search-button-container">
-        <button className="search-button" onClick={handleSearchClick}>
+        <button 
+          className="search-button" 
+          onClick={handleSearchClick}
+          disabled={departureLocation === 'Select departure' || arrivalLocation === 'Select arrival'}
+        >
           View Data
         </button>
       </div>

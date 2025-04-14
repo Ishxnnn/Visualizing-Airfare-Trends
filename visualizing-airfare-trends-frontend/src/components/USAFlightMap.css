@@ -48,3 +48,32 @@
   font-size: 12px;
   color: #333;
 }
+
+.loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+}
+
+.error-message {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  background-color: rgba(255, 73, 73, 0.1);
+  border: 1px solid rgba(255, 73, 73, 0.5);
+  color: #d32f2f;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  z-index: 10;
+}
