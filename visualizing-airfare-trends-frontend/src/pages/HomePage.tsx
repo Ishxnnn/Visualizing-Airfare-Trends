@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CalendarComponent from "../components/CalendarComponent";
 import LocationSelector from "../components/LocationSelector";
 import USAFlightMap from "../components/USAFlightMap";
+import PricingTrendsPage from "./PricingTrendsPage";
 import "./HomePage.css";
 
 // Airport interface
@@ -29,6 +30,9 @@ const HomePage: React.FC = () => {
   // Location state
   const [departureLocation, setDepartureLocation] = useState("Select departure");
   const [arrivalLocation, setArrivalLocation] = useState("Select arrival");
+  
+  // Navigation state
+  const [showPricingTrends, setShowPricingTrends] = useState(false);
   
   // Airport data
   const [airports, setAirports] = useState<Airport[]>([]);
@@ -222,13 +226,33 @@ const HomePage: React.FC = () => {
   };
 
   const handleSearch = () => {
-    console.log("Searching for flights:", {
+    // Navigate to pricing trends page
+    setShowPricingTrends(true);
+    console.log("Navigating to pricing trends page with:", {
       departure: departureLocation,
       arrival: arrivalLocation,
       dates: dateRange
     });
   };
 
+  const handleBackToSearch = () => {
+    setShowPricingTrends(false);
+  };
+
+  // Render the pricing trends page if showPricingTrends is true
+  if (showPricingTrends) {
+    return (
+      <PricingTrendsPage
+        departureLocation={departureLocation}
+        arrivalLocation={arrivalLocation}
+        dateRange={dateRange}
+        onDateChange={handleDateChange}
+        onBack={handleBackToSearch}
+      />
+    );
+  }
+
+  // Otherwise render the home page
   return (
     <div className="homepage-container">
       <div className="homepage-content">

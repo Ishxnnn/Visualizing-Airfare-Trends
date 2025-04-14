@@ -10,11 +10,13 @@ interface LocationSelectorProps {
   departureLocation: string;
   arrivalLocation: string;
   airports: Airport[];
-  availableDestinations: string[]; // Airports available for the selected departure
-  selectedRoutePassengers?: number; // Add this prop for passenger count
+  availableDestinations: string[];
+  selectedRoutePassengers?: number;
+  selectedRouteFare?: number;
   onDepartureChange?: (location: string) => void;
   onArrivalChange?: (location: string) => void;
   onSearch?: () => void;
+  loading?: boolean;
 }
 
 const LocationSelector: React.FC<LocationSelectorProps> = ({

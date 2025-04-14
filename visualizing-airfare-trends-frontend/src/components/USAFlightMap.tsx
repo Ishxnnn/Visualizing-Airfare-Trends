@@ -147,7 +147,7 @@ const USAFlightMap: React.FC<USAFlightMapProps> = ({
                               departureCode !== 'Select' && 
                               arrivalCode !== 'Select';
     
-    setHasSelection(hasValidSelection);
+    // setHasSelection(hasValidSelection);
     
     if (hasValidSelection) {
       // If we have a selection, filter to show only the selected route
@@ -260,10 +260,6 @@ const USAFlightMap: React.FC<USAFlightMapProps> = ({
     
     return usedAirports;
   };
-
-  if (loading && routes.length === 0) {
-    return <div className="loading">Loading flight routes...</div>;
-  }
 
   const visibleAirports = getVisibleAirports();
 

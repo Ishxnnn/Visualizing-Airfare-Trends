@@ -14,6 +14,9 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   onDateChange,
   initialDateRange
 }) => {
+  const minDate = new Date(1993, 0, 1);
+  const maxDate = new Date(2040, 11, 31);
+  
   const [state, setState] = useState([
     {
       startDate: initialDateRange?.startDate || new Date(),
@@ -22,7 +25,6 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
     }
   ]);
 
-  // Update internal state if initialDateRange changes
   useEffect(() => {
     if (initialDateRange) {
       setState([{
@@ -56,6 +58,8 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
         direction="horizontal"
         className="calendar-element"
         rangeColors={['#0066ff']}
+        minDate={minDate}
+        maxDate={maxDate}
       />
     </div>
   );
