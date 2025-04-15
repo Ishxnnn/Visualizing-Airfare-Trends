@@ -10,13 +10,13 @@ import uuid
 
 def initialize_database():
     print("Initializing database...")
-    engine = create_engine('sqlite:///flights.db')
+    engine = create_engine('sqlite:///visualizing-airfare-trends-backend/flights.db')
     csv_path = 'airline_data.csv'
 
     if not os.path.exists(csv_path):
         csv_path = 'visualizing-airfare-trends-backend/airline_data.csv'
         if not os.path.exists(csv_path):
-            if os.path.exists('flights.db'):
+            if os.path.exists('visualizing-airfare-trends-backend/flights.db'):
                 print("CSV not found, using existing DB.")
                 return engine
             raise FileNotFoundError("CSV file missing.")

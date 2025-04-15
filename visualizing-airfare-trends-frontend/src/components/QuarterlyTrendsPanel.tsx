@@ -25,14 +25,16 @@ const getQuarterLabel = (date: Date): string => {
 
 const getQuarterLabelsInRange = (start: Date, end: Date): Set<string> => {
   const labels = new Set<string>();
-  const cursor = new Date(start);
-  cursor.setDate(1);
+  const cursor = new Date(start.getFullYear(), Math.floor(start.getMonth() / 3) * 3, 1);
+
   while (cursor <= end) {
     labels.add(getQuarterLabel(cursor));
     cursor.setMonth(cursor.getMonth() + 3);
   }
+
   return labels;
 };
+
 
 const QuarterlyTrendsPanel: React.FC<QuarterlyTrendsPanelProps> = ({ departure, arrival, dateRange }) => {
   const [data, setData] = useState<QuarterlyDataPoint[]>([]);
