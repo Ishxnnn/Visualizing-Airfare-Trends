@@ -1,6 +1,6 @@
 # Ignore node_modules in both frontend and backend
 visualizing-airfare-trends-frontend/node_modules
-visualizing-airfare-trends-backend/node_modules
+visualizing-airfare-trends-backend/notebook_output
 
 # Mac / OS generated files
 .DS_Store

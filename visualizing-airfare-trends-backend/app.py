@@ -93,10 +93,10 @@ def predict_route_fare():
             return jsonify({"error": "Notebook file not found."}), 500
 
         # 🔧 Ensure output folder exists
-        os.makedirs("notebook_output", exist_ok=True)
+        os.makedirs("visualizing-airfare-trends-backend/notebook_output", exist_ok=True)
 
         # Generate unique output notebook filename
-        output_path = f"notebook_output/output_{uuid.uuid4().hex}.ipynb"
+        output_path = f"visualizing-airfare-trends-backend/notebook_output/output_{uuid.uuid4().hex}.ipynb"
 
         # Execute the notebook with parameters
         pm.execute_notebook(
