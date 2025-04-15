@@ -37,7 +37,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
+  gap: 1.0rem;
 }
 
 /* Card styles for calendar & location */

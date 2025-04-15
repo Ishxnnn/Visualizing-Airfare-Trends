@@ -1,17 +1,17 @@
 .location-selector {
   background-color: white;
   border-radius: 8px;
-  padding: 3px 20px 20px 20px;
+  padding: 1px 20px 1px 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
 }
 
 .location-section {
-  margin-bottom: 24px;
+  margin-bottom: 2px;
 }
 
 .location-section h3 {
-  font-size: 16px;
+  font-size: 10px;
   font-weight: 600;
   margin-bottom: 10px;
   color: #333;
@@ -19,20 +19,6 @@
 
 .location-dropdown {
   position: relative;
-}
-
-.location-select {
-  width: 100%;
-  padding: 12px 16px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  background-color: #f9f9f9;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 16px;
 }
 
 .location-select:focus {
@@ -48,7 +34,7 @@
 }
 
 .search-button-container {
-  margin-top: 24px;
+  margin-top: 2px;
 }
 
 .search-button {
@@ -81,7 +67,8 @@
   background-color: #f5f9ff;
   border-radius: 6px;
   padding: 12px; /* was 16px */
-  margin-bottom: 12px; /* was 20px */
+  margin-top: -10px;
+  margin-bottom: 10px; /* was 20px */
   text-align: center;
   border: 1px solid #e1ebff;
 }
@@ -100,4 +87,8 @@
 
 .search-button-container {
   margin-top: 16px; /* was 24px */
+}
+
+.location-section:first-of-type {
+  margin-bottom: -3px;
 }
