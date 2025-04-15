@@ -49,17 +49,17 @@ const RoutePredictionPanel: React.FC<Props> = ({ departure, arrival, dateRange, 
 
   return (
     <div className="calendar-prediction-box">
+      <h2 className="fare-predictor-heading">Fare Predictor</h2>
       <div className="calendar-prediction-inner">
         <div className="location-section">
-          <h3>Date Range</h3>
-          <CalendarComponent 
-            onDateChange={onDateChange} 
+          <CalendarComponent
+            onDateChange={onDateChange}
             initialDateRange={dateRange}
           />
         </div>
 
         <div className="location-section">
-          <h3>Special Event</h3>
+          <h3>Choose Special Event</h3>
           <div className="location-dropdown">
             <select
               value={selectedEvent}

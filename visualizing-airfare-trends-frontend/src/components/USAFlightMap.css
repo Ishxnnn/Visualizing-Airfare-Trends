@@ -77,3 +77,13 @@
   font-size: 14px;
   z-index: 10;
 }
+
+@keyframes blink {
+  0% { stroke: #ff0000; opacity: 2; }
+  50% { stroke: #ff0000; opacity: 0.2; }
+  100% { stroke: #ff0000; opacity: 1; }
+}
+
+.blinking-line {
+  animation: blink 1.5s infinite;
+}

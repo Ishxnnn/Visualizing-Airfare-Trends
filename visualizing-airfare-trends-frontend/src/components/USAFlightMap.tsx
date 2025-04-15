@@ -309,8 +309,8 @@ const USAFlightMap: React.FC<USAFlightMapProps> = ({
                 stroke={isSelected ? "#FF0000" : "#0066FF"}
                 strokeWidth={isHovered ? lineWidth + 1 : lineWidth}
                 strokeLinecap="round"
-                strokeDasharray="4, 4" // This creates the dotted line effect
-                className="flight-route"
+                strokeDasharray="4, 4"
+                className={`flight-route ${isSelected ? 'blinking-line' : ''}`}
                 onMouseEnter={(evt) => {
                   setHoveredRoute(routeId);
                   const formatNumber = (num: number) => num.toLocaleString();

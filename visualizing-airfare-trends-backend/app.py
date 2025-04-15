@@ -85,6 +85,7 @@ def predict_route_fare():
         end_date = data.get("endDate")
         event = data.get("event")
 
+        print(departure, arrival, start_date, end_date, event)
         if not all([departure, arrival, start_date, end_date]):
             return jsonify({"error": "Missing required fields."}), 400
 
@@ -140,6 +141,70 @@ def predict_route_fare():
     except Exception as e:
         print(f"Error during prediction: {e}")
         return jsonify({"error": str(e)}), 500
+
+@app.route('/api/quarterly-fares', methods=['POST'])
+def get_quarterly_fares():
+    try:
+        data = request.get_json()
+        departure = data.get("departure")
+        arrival = data.get("arrival")
+
+        if not departure or not arrival:
+            return jsonify({"error": "Missing required fields."}), 400
+
+        conn = get_db_connection()
+
+        query = text("""
+            SELECT Year, quarter, AVG(fare) as average_fare
+            FROM flights
+            WHERE (airport_1 = :departure AND airport_2 = :arrival)
+               OR (airport_1 = :arrival AND airport_2 = :departure)
+            GROUP BY Year, quarter
+            ORDER BY Year, quarter
+        """)
+
+        result = pd.read_sql_query(query, conn, params={"departure": departure, "arrival": arrival})
+        conn.close()
+
+        if result.empty:
+            return jsonify([])
+
+        result['quarter_label'] = result['Year'].astype(str) + " Q" + result['quarter'].astype(str)
+        response_data = result[['quarter_label', 'average_fare']].rename(columns={
+            "quarter_label": "label",
+            "average_fare": "value"
+        }).to_dict(orient="records")
+
+        return jsonify(response_data)
+
+    except Exception as e:
+        print(f"Error fetching quarterly fares: {e}")
+        return jsonify({"error": str(e)}), 500
+    
+@app.route('/api/yearly-fares', methods=['POST'])
+def get_yearly_fares():
+    try:
+        data = request.get_json()
+        departure = data['departure']
+        arrival = data['arrival']
+
+        conn = get_db_connection()
+        query = text("""
+            SELECT Year, AVG(fare) AS avg_fare
+            FROM flights
+            WHERE airport_1 = :departure AND airport_2 = :arrival
+            GROUP BY Year
+            ORDER BY Year
+        """)
+        result = conn.execute(query, {'departure': departure, 'arrival': arrival}).fetchall()
+        conn.close()
+
+        response = [{'label': str(row[0]), 'value': round(row[1], 2)} for row in result]
+        return jsonify(response)
+
+    except Exception as e:
+        print(f"Error in get_yearly_fares: {e}")
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/', methods=['GET'])
 def home():
