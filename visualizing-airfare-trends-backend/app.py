@@ -8,7 +8,6 @@ from nbconvert.preprocessors import ExecutePreprocessor
 import papermill as pm
 import uuid
 
-# Initialize SQLite database from CSV
 def initialize_database():
     print("Initializing database...")
     engine = create_engine('sqlite:///flights.db')
@@ -93,13 +92,10 @@ def predict_route_fare():
         if not os.path.exists(notebook_path):
             return jsonify({"error": "Notebook file not found."}), 500
 
-        # 🔧 Ensure output folder exists
         os.makedirs("visualizing-airfare-trends-backend/notebook_output", exist_ok=True)
 
-        # Generate unique output notebook filename
         output_path = f"visualizing-airfare-trends-backend/notebook_output/output_{uuid.uuid4().hex}.ipynb"
 
-        # Execute the notebook with parameters
         pm.execute_notebook(
             input_path=notebook_path,
             output_path=output_path,
@@ -113,10 +109,8 @@ def predict_route_fare():
             kernel_name="python3"
         )
 
-        # Read the executed notebook
         executed_nb = nbformat.read(output_path, as_version=4)
 
-        # Extract the last cell output
         last_cell = executed_nb.cells[-1]
         predicted_price = None
 
