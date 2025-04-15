@@ -1,7 +1,7 @@
 .location-selector {
   background-color: white;
   border-radius: 8px;
-  padding: 20px;
+  padding: 3px 20px 20px 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
 }
@@ -80,8 +80,8 @@
 .passenger-count-display {
   background-color: #f5f9ff;
   border-radius: 6px;
-  padding: 16px;
-  margin-bottom: 20px;
+  padding: 12px; /* was 16px */
+  margin-bottom: 12px; /* was 20px */
   text-align: center;
   border: 1px solid #e1ebff;
 }
@@ -96,4 +96,8 @@
   font-size: 28px;
   font-weight: 700;
   color: #0066ff;
+}
+
+.search-button-container {
+  margin-top: 16px; /* was 24px */
 }
