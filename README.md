@@ -16,9 +16,9 @@ cd visualizing-airfare-trends
 Make sure you have **Conda** installed. Then run:
 
 ```bash
-cd ../visualizing-airfare-trends-backend
+cd visualizing-airfare-trends-backend
 conda env create -f environment.yml
-conda activate airfare_backend
+conda activate visualizing_airfare_trends_backend
 python app.py
 ```
 
