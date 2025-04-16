@@ -10,11 +10,10 @@ An interactive full-stack web application to explore historical U.S. airfare tre
 
 Before running this project, ensure you have the following installed:
 
-- 📦 [**Conda**](https://docs.conda.io/en/latest/miniconda.html) (for backend environment management)
-- 🧰 [**Node.js & npm**](https://nodejs.org/) (for running the frontend)
+- 📦 [**Conda**](https://docs.conda.io/en/latest/miniconda.html) - for backend environment management
+- 🧰 [**Node.js & npm**](https://nodejs.org/) - for running the frontend
 - ✅ [**Git**](https://git-scm.com/) – to clone this repository
-- 📂 [**Git LFS**](https://git-lfs.com/) – to pull the dataset properly
-
+- 📂 [**Git LFS**](https://git-lfs.com/) – to pull the dataset properly (install via [**Homebrew**](https://brew.sh/) or [**MacPorts**](https://www.macports.org/))
 ---
 
 ## ⚙️ Setup Instructions
