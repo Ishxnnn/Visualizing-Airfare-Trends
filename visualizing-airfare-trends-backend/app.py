@@ -8,18 +8,21 @@ from nbconvert.preprocessors import ExecutePreprocessor
 import papermill as pm
 import uuid
 
+# --- Ensure consistent DB location ---
+base_dir = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(base_dir, 'flights.db')
+engine = create_engine(f'sqlite:///{db_path}')
+
+
 def initialize_database():
     print("Initializing database...")
-    engine = create_engine('sqlite:///visualizing-airfare-trends-backend/flights.db')
-    csv_path = 'airline_data.csv'
+    csv_path = os.path.join(base_dir, 'airline_data.csv')
 
     if not os.path.exists(csv_path):
-        csv_path = 'visualizing-airfare-trends-backend/airline_data.csv'
-        if not os.path.exists(csv_path):
-            if os.path.exists('visualizing-airfare-trends-backend/flights.db'):
-                print("CSV not found, using existing DB.")
-                return engine
-            raise FileNotFoundError("CSV file missing.")
+        if os.path.exists(db_path):
+            print("CSV not found, using existing DB.")
+            return engine
+        raise FileNotFoundError("CSV file missing and DB not found.")
 
     df = pd.read_csv(csv_path)
     df.to_sql('flights', engine, if_exists='replace', index=False)
@@ -38,16 +41,16 @@ def get_routes():
     try:
         conn = get_db_connection()
         query = text("""
-        SELECT 
-            airport_1, 
-            airport_2, 
-            COUNT(*) as frequency,
-            AVG(fare) as avg_fare,
-            SUM(passengers) as total_passengers
-        FROM flights
-        GROUP BY airport_1, airport_2
-        ORDER BY total_passengers DESC
-        LIMIT 150
+            SELECT 
+                airport_1, 
+                airport_2, 
+                COUNT(*) as frequency,
+                AVG(fare) as avg_fare,
+                SUM(passengers) as total_passengers
+            FROM flights
+            GROUP BY airport_1, airport_2
+            ORDER BY total_passengers DESC
+            LIMIT 150
         """)
         result = pd.read_sql_query(query, conn)
         conn.close()
@@ -70,9 +73,6 @@ def get_routes():
         print(f"Error fetching routes: {e}")
         return jsonify({"error": str(e)}), 500
 
-import os
-import papermill as pm
-import uuid
 
 @app.route('/api/predict', methods=['POST'])
 def predict_route_fare():
@@ -88,13 +88,14 @@ def predict_route_fare():
         if not all([departure, arrival, start_date, end_date]):
             return jsonify({"error": "Missing required fields."}), 400
 
-        notebook_path = "visualizing-airfare-trends-backend/dataviz_draft.ipynb"
+        notebook_path = os.path.join(base_dir, "dataviz_draft.ipynb")
         if not os.path.exists(notebook_path):
             return jsonify({"error": "Notebook file not found."}), 500
 
-        os.makedirs("visualizing-airfare-trends-backend/notebook_output", exist_ok=True)
+        output_dir = os.path.join(base_dir, "notebook_output")
+        os.makedirs(output_dir, exist_ok=True)
 
-        output_path = f"visualizing-airfare-trends-backend/notebook_output/output_{uuid.uuid4().hex}.ipynb"
+        output_path = os.path.join(output_dir, f"output_{uuid.uuid4().hex}.ipynb")
 
         pm.execute_notebook(
             input_path=notebook_path,
@@ -129,12 +130,13 @@ def predict_route_fare():
                         break
                     except (ValueError, KeyError):
                         pass
-        
+
         return jsonify({"predictedPrice": predicted_price})
 
     except Exception as e:
         print(f"Error during prediction: {e}")
         return jsonify({"error": str(e)}), 500
+
 
 @app.route('/api/quarterly-fares', methods=['POST'])
 def get_quarterly_fares():
@@ -174,7 +176,8 @@ def get_quarterly_fares():
     except Exception as e:
         print(f"Error fetching quarterly fares: {e}")
         return jsonify({"error": str(e)}), 500
-    
+
+
 @app.route('/api/yearly-fares', methods=['POST'])
 def get_yearly_fares():
     try:
@@ -200,9 +203,11 @@ def get_yearly_fares():
         print(f"Error in get_yearly_fares: {e}")
         return jsonify({'error': str(e)}), 500
 
+
 @app.route('/', methods=['GET'])
 def home():
     return "Flight Data API is running!"
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000, host='0.0.0.0')
