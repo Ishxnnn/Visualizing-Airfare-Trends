@@ -12,7 +12,8 @@ Before running this project, ensure you have the following installed:
 
 - 📦 [**Conda**](https://docs.conda.io/en/latest/miniconda.html) (for backend environment management)
 - 🧰 [**Node.js & npm**](https://nodejs.org/) (for running the frontend)
-- ✅ Git (to clone this repository)
+- ✅ [**Git**](https://git-scm.com/) – to clone this repository
+- 📂 [**Git LFS**](https://git-lfs.com/) – to pull the dataset properly
 
 ---
 
@@ -25,6 +26,15 @@ Open a new terminal and run:
 git clone https://github.com/Ishxnnn/visualizing-airfare-trends.git
 cd visualizing-airfare-trends
 ```
+### 2. Pull the Actual CSV Dataset
+
+Pull down the large CSV file using Git LFS:
+
+```bash
+git lfs pull
+```
+
+⚠️ Without this step, the backend will fail to initialize the database due to a missing or invalid `airline_data.csv`.
 
 ### 2. Backend Setup (Flask + Pandas)
 In the same terminal, run:
