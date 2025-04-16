@@ -45,16 +45,22 @@ If you encounter an error with port `5000` already in use when starting the back
 
 
 ### 3. Frontend Setup (React + Vite)
-In a new terminal, run:
+Open a new terminal and navigate to the project folder:
 
 ```bash
-cd ../visualizing-airfare-trends-frontend
-npm install
+cd ~/visualizing-airfare-trends
+```
+
+Launch the frontend:
+
+```bash
+cd visualizing-airfare-trends-frontend
+npm install --legacy-peer-deps
 npm run dev
 ```
 
 In your web browser, navigate to `http://localhost:5173`.
-The app should now be fully functional in your browser.
+The app should now be fully functional in your browser!
 
 ## 🧠 Features
 
