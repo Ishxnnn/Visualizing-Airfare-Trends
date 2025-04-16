@@ -1,4 +1,4 @@
-# ✈️ Visualizing Airfare Trends
+# Visualizing Airfare Trends ✈️
 
 An interactive full-stack web application to explore historical U.S. airfare trends. Users can select specific flight routes and visualize dynamic pricing trends by quarter and year. Built with **React + TypeScript** on the frontend and **Flask + Pandas** on the backend.
 
