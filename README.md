@@ -4,16 +4,30 @@ An interactive full-stack web application to explore historical U.S. airfare tre
 
 ![Map Overview](screenshots/map-overview.png)
 
+---
+
+## ⚠️ Prerequisites
+
+Before running this project, ensure you have the following installed:
+
+- 📦 [**Conda**](https://docs.conda.io/en/latest/miniconda.html) (for backend environment management)
+- 🧰 [**Node.js & npm**](https://nodejs.org/) (for running the frontend)
+- ✅ Git (to clone this repository)
+
+---
+
 ## ⚙️ Setup Instructions
 
 ### 1. Clone the Repository
+Open a new terminal and run:
+
 ```bash
 git clone https://github.com/Ishxnnn/visualizing-airfare-trends.git
 cd visualizing-airfare-trends
 ```
 
 ### 2. Backend Setup (Flask + Pandas)
-Make sure you have **Conda** installed. Then run:
+In the same terminal, run:
 
 ```bash
 cd visualizing-airfare-trends-backend
@@ -22,10 +36,16 @@ conda activate visualizing_airfare_trends_backend
 python app.py
 ```
 
-The backend will run on `http://localhost:5000`.
+In your web browser, navigate to `http://localhost:5000`.
+You should see the message: `Flight Data API is running!`
+
+> **Note for macOS users:**  
+If you encounter an error with port `5000` already in use when starting the backend, try disabling the **AirPlay Receiver** from:  
+**System Settings → General → AirDrop & Handoff → AirPlay Receiver** → **Turn Off** temporarily.
+
 
 ### 3. Frontend Setup (React + Vite)
-In another terminal:
+In a new terminal, run:
 
 ```bash
 cd ../visualizing-airfare-trends-frontend
@@ -33,7 +53,8 @@ npm install
 npm run dev
 ```
 
-The frontend will run on `http://localhost:5173`.
+In your web browser, navigate to `http://localhost:5173`.
+The app should now be fully functional in your browser.
 
 ## 🧠 Features
 
