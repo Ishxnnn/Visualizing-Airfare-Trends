@@ -2,17 +2,7 @@
 
 An interactive full-stack web application to explore historical U.S. airfare trends. Users can select specific flight routes and visualize dynamic pricing trends by quarter and year. Built with **React + TypeScript** on the frontend and **Flask + Pandas** on the backend.
 
----
-
-## 📸 Screenshots
-
-### 🗺️ All Available Routes
 ![Map Overview](screenshots/map-overview.png)
-
-### 📊 Pricing Trends by Quarter & Year
-![Pricing Panels](screenshots/trend-panels.png)
-
----
 
 ## ⚙️ Setup Instructions
 
