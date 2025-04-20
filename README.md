@@ -1,98 +1,95 @@
 # Visualizing Airfare Trends ✈️
 
-An interactive full-stack web application to explore historical U.S. airfare trends. Users can select specific flight routes and visualize dynamic pricing trends by quarter and year. Built with **React + TypeScript** on the frontend and **Flask + Pandas** on the backend.
+## 📙 Description
 
-![Map Overview](screenshots/map-overview.png)
+**Visualizing Airfare Trends** is a full-stack web application that enables users to explore and analyze historical U.S. flight pricing data in an interactive, visual format. Built with a React + TypeScript frontend and a Flask + Pandas backend, the system integrates a variety of datasets—including FAA airfare statistics and macroeconomic indicators—to help users identify patterns and trends in airline pricing over time. Users can click on specific flight routes across a U.S. map to view pricing trends by quarter and year, compare fare fluctuations across time periods, and analyze how special events like recessions or pandemics impact air travel costs.
+
+The application also features a fare prediction engine that leverages a decision tree model to estimate prices based on user-defined routes, dates, and events. In addition to trend graphs and fare forecasts, the system provides economic context by surfacing relevant macro-level metrics like GDP, oil prices, and unemployment rates for the selected date range. With its intuitive interface and data-driven backend, this tool supports both casual exploration and deeper analytical insights into the dynamics of airfare pricing in the U.S.
+
+![App Overview](screenshots/map-overview.png)
 
 ---
 
-## ⚠️ Prerequisites
+## ⚙️ Installation
 
-Before running this project, ensure you have the following installed:
+Before running this project, ensure you have the following tools installed:
 
-- 📦 [**Conda**](https://docs.conda.io/en/latest/miniconda.html) - for backend environment management
-- 🧰 [**Node.js & npm**](https://nodejs.org/) - for running the frontend
-- ✅ [**Git**](https://git-scm.com/) – to clone this repository
-- 📂 [**Git LFS**](https://git-lfs.com/) – to pull the dataset properly (install via [**Homebrew**](https://brew.sh/) or [**MacPorts**](https://www.macports.org/))
----
+- [Anaconda](https://www.anaconda.com/download) - for the backend environment
+- [Node.js & npm](https://nodejs.org/en/download/) - for running the frontend
 
-## ⚙️ Setup Instructions
+### 1. Add the Required Datasets
 
-### 1. Clone the Repository
-Open a new terminal and run:
+You will need two CSV files:  
+- `airline_data.csv` – the main flight data  
+- `macro_data.csv` – the combined macroeconomic dataset
 
-```bash
-git clone https://github.com/Ishxnnn/visualizing-airfare-trends.git
-cd visualizing-airfare-trends
-```
-### 2. Pull the Actual CSV Dataset
+Refer to the accompanying `doc/team020_datasets.pdf` document for instructions on how to download or generate these datasets.
 
-Pull down the large CSV file using Git LFS:
+Once obtained, ensure both datasets are in the following folder:
 
-```bash
-git lfs pull
-```
+`visualizing-airfare-trends/visualizing-airfare-trends-backend/`
 
-⚠️ Without this step, the backend will fail to initialize the database due to a missing or invalid `airline_data.csv`.
+### 2. Install Dependencies
 
-### 2. Backend Setup (Flask + Pandas)
-In the same terminal, run:
+#### Backend (Flask + Pandas)
+
+Open a terminal and run the following commands to set up and start the backend:
 
 ```bash
-cd visualizing-airfare-trends-backend
+cd visualizing-airfare-trends/visualizing-airfare-trends-backend
 conda env create -f environment.yml
 conda activate visualizing_airfare_trends_backend
 python app.py
 ```
 
-In your web browser, navigate to `http://localhost:3000`.
-You should see the message: `Flight Data API is running!`
+This will start the backend server at http://localhost:3000. You should see the message:
 
+`Flight Data API is running!`
 
-### 3. Frontend Setup (React + Vite)
-Open a new terminal and navigate to the project folder:
+#### Frontend (React + Vite)
 
-```bash
-cd ~/visualizing-airfare-trends
-```
-
-Launch the frontend:
+In a new terminal, run the following to install dependencies and launch the frontend:
 
 ```bash
-cd visualizing-airfare-trends-frontend
+cd visualizing-airfare-trends/visualizing-airfare-trends-frontend
 npm install --legacy-peer-deps
 npm run dev
 ```
 
-In your web browser, navigate to `http://localhost:5173`.
-The app should now be fully functional in your browser!
+The application will be accessible in your browser at http://localhost:5173.
 
-## 🧠 Features
+---
 
-* 🗺️ Interactive flight route map
-* ✈️ Route selection with blinking red animation
-* 📅 Calendar-based quarter/year filters
-* 📊 Dynamic quarterly and yearly pricing panels
-* 🧮 Fare prediction using a decision tree model
-* 🔍 Auto-scroll to relevant quarters/years based on selected dates
-* ⚡ Dotted-line animation that mimics flight motion
+## 🚀 Execution
 
-## 🗂️ Folder Structure
+Once both the backend and frontend are running, you can access the application at http://localhost:5173.
 
-```
-visualizing-airfare-trends/
-├── visualizing-airfare-trends-backend/
-│   ├── app.py
-│   └── environment.yml
-├── visualizing-airfare-trends-frontend/
-│   ├── src/
-│   └── index.html
-└── README.md
-```
+Here’s how to use the application:
 
-## 💻 Tech Stack
+1. **Start on the Interactive Map:**
+   - You’ll see a map of the U.S. with airports and flight routes.
+   - Click on a route between two airports to explore its fare trends.
 
-* **Frontend:** React, TypeScript, Vite, CSS Modules
-* **Visualization:** react-simple-maps, D3
-* **Backend:** Flask, Pandas, NumPy
-* **Data:** FAA fare and passenger route data
+2. **View Quarterly & Yearly Fare Trends:**
+   - After selecting a route and selecting `View Data`, the system displays two bar charts.
+     - One shows **quarterly pricing trends**.
+     - The other shows **yearly pricing trends**.
+   - These trends are based on real historical data from the FAA.
+
+3. **Use the Calendar Panel for Prediction:**
+   - In the prediction panel, select a **start and end date** using the calendar.
+   - Choose a **special event** (e.g., Pandemic, Recession) to simulate its impact.
+   - Click **“Predict Route Fare”** to receive a model-generated fare estimate.
+   - The system uses a decision tree model trained on historical data to compute this prediction.
+
+4. **Macroeconomic Context:**
+   - When a date is chosen, the panel also fetches and displays:
+     - GDP
+     - Oil prices
+     - Unemployment rate
+   - These metrics correspond to the selected date and provide additional context for interpreting fare changes.
+
+5. **Clear Selections & Explore More Routes:**
+   - On the home page, click **“Show All Routes”** to reset the view and select a new route.
+
+This interactive pipeline allows users to explore and compare how airfare changes over time, under different conditions, and between routes — offering both historical insight and predictive power.
