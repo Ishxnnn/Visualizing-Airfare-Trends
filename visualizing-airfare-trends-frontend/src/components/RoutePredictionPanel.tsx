@@ -85,7 +85,7 @@ const RoutePredictionPanel: React.FC<Props> = ({ departure, arrival, dateRange, 
           {loading ? (
             <p className="loading-text">Loading prediction...</p>
           ) : predictedPrice !== null ? (
-            <p>Your predicted price is: <strong>${predictedPrice}</strong></p>
+            <p>Your predicted price is: <strong>${predictedPrice.toFixed(2)}</strong></p>
           ) : (
             <p>We run a decision tree model to calculate your route fare.</p>
           )}
