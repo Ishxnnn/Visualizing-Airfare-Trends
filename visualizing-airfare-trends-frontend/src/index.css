@@ -1,11 +1,9 @@
-/* Root-level defaults */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  /* Remove dark mode logic and force a light background. */
-  color: #213547;               /* text color */
-  background-color: #f5f7fa;    /* entire page background matches homepage */
+  color: #213547;               
+  background-color: #f5f7fa;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -15,12 +13,10 @@
 html, body {
   margin: 0;
   padding: 0;
-  background-color: #f5f7fa; /* match container background */
+  background-color: #f5f7fa;
   min-width: 320px;
-  /* Remove any auto dark-mode or color-scheme property */
 }
 
-/* Links */
 a {
   font-weight: 500;
   color: #646cff;
@@ -30,13 +26,11 @@ a:hover {
   color: #535bf2;
 }
 
-/* Headings */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 
-/* Buttons */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -45,7 +39,7 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
-  color: #fff; /* so text is visible on dark button */
+  color: #fff;
   cursor: pointer;
   transition: border-color 0.25s;
 }

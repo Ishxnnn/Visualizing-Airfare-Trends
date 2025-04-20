@@ -31,7 +31,7 @@
 .chart-controls {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px; /* add space below */
+  margin-bottom: 8px;
   padding: -400px;
 }
 

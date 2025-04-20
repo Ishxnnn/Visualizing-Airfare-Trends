@@ -9,7 +9,7 @@ interface YearlyTrendsPanelProps {
 }
 
 interface YearlyDataPoint {
-  label: string; // Format: "YYYY"
+  label: string; // "YYYY"
   value: number;
 }
 
@@ -24,7 +24,7 @@ const getYearLabelsInRange = (start: Date, end: Date): Set<string> => {
 };
 
 const isPastYearRange = (end: Date): boolean => {
-  const cutoff = new Date(2024, 11, 31); // Dec 31, 2024
+  const cutoff = new Date(2024, 11, 31);
   return end <= cutoff;
 };
 

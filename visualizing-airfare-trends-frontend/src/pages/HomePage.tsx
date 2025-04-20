@@ -168,7 +168,6 @@ const HomePage: React.FC = () => {
   return (
     <div className="homepage-container">
       <div className="homepage-content-row">
-        {/* MAP & TITLE */}
         <div className="map-column">
           <h1 className="map-title">Visualizing Airfare Trends ✈️</h1>
           <USAFlightMap 
@@ -178,7 +177,6 @@ const HomePage: React.FC = () => {
           />
         </div>
 
-        {/* SIDEBAR */}
         <div className="sidebar-column">
           <div className="calendar-box">
             <CalendarComponent 

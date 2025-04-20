@@ -1,4 +1,3 @@
-/* Entire page background */
 .homepage-container {
   background-color: #f5f7fa;
   width: 100%;
@@ -6,7 +5,6 @@
   padding: 0;
 }
 
-/* FLEX LAYOUT for map + right panel */
 .homepage-content-row {
   display: flex;
   flex-direction: row;
@@ -18,7 +16,6 @@
   margin: 0 auto;
 }
 
-/* LEFT: Map */
 .map-column {
   flex: 2;
   display: flex;
@@ -32,7 +29,6 @@
   color: #333;
 }
 
-/* RIGHT: Calendar + Location */
 .sidebar-column {
   flex: 1;
   display: flex;
@@ -40,7 +36,6 @@
   gap: 1.0rem;
 }
 
-/* Card styles for calendar & location */
 .calendar-box,
 .location-box {
   background-color: #fff;

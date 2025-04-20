@@ -64,10 +64,9 @@ const airportCoordinates: { [key: string]: [number, number] } = {
   'TPA': [-82.5332, 27.9772],  // Tampa
 };
 
-// Scale for line thickness based on popularity
 const popularityScale = scaleLinear()
   .domain([0, 100])
-  .range([1, 75]); // Increased upper limit for more noticeable differences
+  .range([1, 75]);
 
 interface FlightRoute {
   from: string;
@@ -100,7 +99,6 @@ const USAFlightMap: React.FC<USAFlightMapProps> = ({
   } | null>(null);
   const [hasSelection, setHasSelection] = useState(false);
   
-  // Fetch routes from the backend API
   useEffect(() => {
     const fetchRoutes = async () => {
       try {
@@ -119,7 +117,7 @@ const USAFlightMap: React.FC<USAFlightMapProps> = ({
         const data = await response.json();
         console.log("Fetched routes:", data);
         setRoutes(data);
-        setAllRoutes(data); // Store all routes for later use
+        setAllRoutes(data);
         setError(null);
       } catch (err) {
         console.error('Error fetching routes:', err);
@@ -132,39 +130,35 @@ const USAFlightMap: React.FC<USAFlightMapProps> = ({
     fetchRoutes();
   }, []);
 
-  // Extract airport codes from the full location strings
   const getDepartureCode = () => selectedDeparture.split(' ')[0];
   const getArrivalCode = () => selectedArrival.split(' ')[0];
 
-  // Update selected route when departure or arrival changes
   useEffect(() => {
     const departureCode = getDepartureCode();
     const arrivalCode = getArrivalCode();
     
-    // Check if we have a valid selection (both departure and arrival)
-    const hasValidSelection = departureCode && arrivalCode && 
-                              departureCode !== arrivalCode &&
-                              departureCode !== 'Select' && 
-                              arrivalCode !== 'Select';
+    const hasValidSelection = Boolean(
+      departureCode &&
+      arrivalCode &&
+      departureCode !== arrivalCode &&
+      departureCode !== 'Select' &&
+      arrivalCode !== 'Select'
+    );
     
-    // setHasSelection(hasValidSelection);
+    setHasSelection(hasValidSelection);
     
     if (hasValidSelection) {
-      // If we have a selection, filter to show only the selected route
       const selectedRoute = allRoutes.find(route => 
         (route.from === departureCode && route.to === arrivalCode) ||
         (route.from === arrivalCode && route.to === departureCode)
       );
       
       if (selectedRoute) {
-        // Show only the selected route
         setRoutes([{
           ...selectedRoute,
           selected: true
         }]);
       } else {
-        // If no route matches exactly, still mark routes as selected if they
-        // involve either the departure or arrival airport
         setRoutes(allRoutes.map(route => ({
           ...route,
           selected: (route.from === departureCode && route.to === arrivalCode) ||
@@ -172,23 +166,19 @@ const USAFlightMap: React.FC<USAFlightMapProps> = ({
         })));
       }
     } else {
-      // If no selection, show all routes
       setRoutes(allRoutes);
     }
   }, [selectedDeparture, selectedArrival, allRoutes]);
 
   const handleRouteClick = (route: FlightRoute) => {
     if (onRouteSelect) {
-      // If this route is already selected, unselect it
       const departureCode = getDepartureCode();
       const arrivalCode = getArrivalCode();
       
       if ((route.from === departureCode && route.to === arrivalCode) ||
           (route.from === arrivalCode && route.to === departureCode)) {
-        // Unselect: pass empty values to reset
         onRouteSelect('Select departure', 'Select arrival');
       } else {
-        // Select this route
         onRouteSelect(`${route.from} (${getAirportName(route.from)})`, 
                       `${route.to} (${getAirportName(route.to)})`);
       }
@@ -249,7 +239,6 @@ const USAFlightMap: React.FC<USAFlightMapProps> = ({
     return airports[code] || code;
   };
 
-  // Get visible airports - airports that are used in visible routes
   const getVisibleAirports = () => {
     const usedAirports = new Set<string>();
     
@@ -290,15 +279,12 @@ const USAFlightMap: React.FC<USAFlightMapProps> = ({
           }
         </Geographies>
 
-        {/* Flight routes */}
         {routes.map((route) => {
-          // Only draw if both airports exist
           if (airportCoordinates[route.from] && airportCoordinates[route.to]) {
             const routeId = `${route.from}-${route.to}`;
             const isHovered = hoveredRoute === routeId;
             const isSelected = route.selected;
             
-            // Calculate line width based on popularity
             const lineWidth = popularityScale(route.popularity);
             
             return (
@@ -349,9 +335,7 @@ const USAFlightMap: React.FC<USAFlightMapProps> = ({
           return null;
         })}
 
-        {/* Airport markers - only show airports that are used in routes */}
         {Object.entries(airportCoordinates).map(([code, coordinates]) => {
-          // Check if this airport is used in any of the visible routes
           const isUsed = visibleAirports.has(code);
           
           if (!isUsed) return null;

@@ -9,7 +9,6 @@
     width: 100%;
   }
   
-  /* Override react-date-range styles to match your design */
   .rdrMonth {
     width: 100% !important;
   }
@@ -40,7 +39,6 @@
     font-weight: 600;
   }
   
-  /* Custom styles for selected state */
   .rdrDayStartPreview, .rdrDayEndPreview, .rdrDayInPreview {
     color: rgba(0, 102, 255, 0.2) !important;
   }

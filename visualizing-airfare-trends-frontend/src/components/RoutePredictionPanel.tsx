@@ -20,10 +20,12 @@ const RoutePredictionPanel: React.FC<Props> = ({
   const [selectedEvent, setSelectedEvent] = useState<string>('None');
   const [predictedPrice, setPredictedPrice] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [predictionError, setPredictionError] = useState<string | null>(null);
 
   const handleApply = async () => {
     setLoading(true);
     setPredictedPrice(null);
+    setPredictionError(null);
     onPredictionResult(null, null);
 
     try {
@@ -43,12 +45,15 @@ const RoutePredictionPanel: React.FC<Props> = ({
 
       if (res.ok && data.predictedPrice) {
         setPredictedPrice(data.predictedPrice);
+        setPredictionError(null);
         onPredictionResult(data.actualPrice ?? null, data.predictedPrice);
       } else {
-        console.error('Prediction error:', data.error);
+        const message = data.error || 'An unexpected error occurred.';
+        setPredictionError(message);
       }
     } catch (err) {
       console.error('API error:', err);
+      setPredictionError('Failed to connect to the prediction service.');
     }
 
     setLoading(false);
@@ -91,6 +96,8 @@ const RoutePredictionPanel: React.FC<Props> = ({
         <div className="prediction-result">
           {loading ? (
             <p className="loading-text">Loading prediction...</p>
+          ) : predictionError ? (
+            <p className="error-text">{predictionError}</p>
           ) : predictedPrice !== null ? (
             <p>Your predicted price is: <strong>${predictedPrice.toFixed(2)}</strong></p>
           ) : (

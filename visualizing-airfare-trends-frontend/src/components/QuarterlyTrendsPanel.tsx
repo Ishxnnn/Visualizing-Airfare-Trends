@@ -9,7 +9,7 @@ interface QuarterlyTrendsPanelProps {
 }
 
 interface QuarterlyDataPoint {
-  label: string; // Format: "YYYY Qn"
+  label: string; // "YYYY Qn"
   value: number;
 }
 
@@ -37,7 +37,7 @@ const getQuarterLabelsInRange = (start: Date, end: Date): Set<string> => {
 };
 
 const isPastDateRange = (end: Date): boolean => {
-  const cutoff = new Date(2024, 2, 31); // March 31, 2024
+  const cutoff = new Date(2024, 2, 31);
   return end <= cutoff;
 };
 

@@ -47,17 +47,13 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
     }
   };
 
-  // Check if departure is selected (not the placeholder)
   const isDepartureSelected = departureLocation !== 'Select departure';
   
-  // Check if both departure and arrival are selected
   const isRouteSelected = departureLocation !== 'Select departure' && 
                           arrivalLocation !== 'Select arrival';
   
-  // Get the departure airport code
   const departureCode = isDepartureSelected ? departureLocation.split(' ')[0] : '';
 
-  // Format passenger number with commas
   const formatNumber = (num: number) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
@@ -108,7 +104,6 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
         </div>
       </div>
 
-      {/* Passenger count display */}
       {isRouteSelected && selectedRoutePassengers !== undefined && (
         <div className="passenger-count-display">
           <div className="passenger-count-label">Total Passengers</div>

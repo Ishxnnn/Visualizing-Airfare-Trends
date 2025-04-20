@@ -40,7 +40,7 @@ const MacroMetricsPanel: React.FC<MacroMetricsPanelProps> = ({ dateRange }) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            date: selectedDate.toISOString().split('T')[0], // use start date
+            date: selectedDate.toISOString().split('T')[0],
           }),
         });
 

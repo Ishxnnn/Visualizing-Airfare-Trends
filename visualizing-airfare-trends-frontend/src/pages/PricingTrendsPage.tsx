@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import RoutePredictionPanel from '../components/RoutePredictionPanel';
 import QuarterlyTrendsPanel from '../components/QuarterlyTrendsPanel';
 import YearlyTrendsPanel from '../components/YearlyTrendsPanel';
-import MacroMetricsPanel from '../components/MacroMetricsPanel'; // ✅ import the new panel
+import MacroMetricsPanel from '../components/MacroMetricsPanel';
 import './PricingTrendsPage.css';
 
 interface PricingTrendsPageProps {
@@ -39,7 +39,6 @@ const PricingTrendsPage: React.FC<PricingTrendsPageProps> = ({
 
       <div className="pricing-trends-content">
         <div className="pricing-trends-row">
-          {/* Left Column */}
           <RoutePredictionPanel 
             departure={departureLocation.split(' ')[0]}
             arrival={arrivalLocation.split(' ')[0]}
@@ -48,7 +47,6 @@ const PricingTrendsPage: React.FC<PricingTrendsPageProps> = ({
             onPredictionResult={handlePredictionResult}
           />
 
-          {/* Right Column: Quarterly + Yearly + Macro stacked */}
           <div className="stacked-panels">
             <QuarterlyTrendsPanel 
               departure={departureLocation.split(' ')[0]} 
@@ -63,7 +61,7 @@ const PricingTrendsPage: React.FC<PricingTrendsPageProps> = ({
               predictedPrice={predictedPrice}
             />
             <MacroMetricsPanel 
-              dateRange={dateRange} // ✅ pass down date for macro context
+              dateRange={dateRange}
             />
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DateRange, RangeKeyDict } from 'react-date-range';
-import 'react-date-range/dist/styles.css'; // main style file
-import 'react-date-range/dist/theme/default.css'; // theme css file
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 import { addDays } from 'date-fns';
 import './CalendarComponent.css';
 

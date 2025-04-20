@@ -8,7 +8,6 @@ from nbconvert.preprocessors import ExecutePreprocessor
 import papermill as pm
 import uuid
 
-# --- Ensure consistent DB location ---
 base_dir = os.path.dirname(os.path.abspath(__file__))
 db_path = os.path.join(base_dir, 'flights.db')
 engine = create_engine(f'sqlite:///{db_path}')
@@ -47,20 +46,6 @@ def initialize_macro_data():
         print(f"Error initializing macro data: {e}")
 
 initialize_macro_data()
-
-# @app.route('/api/macro-data', methods=['GET'])
-# def get_macro_data():
-#     try:
-#         conn = get_db_connection()
-#         result = pd.read_sql_query("SELECT * FROM macro_data ORDER BY year, quarter", conn)
-#         conn.close()
-
-#         macro_list = result.to_dict(orient="records")
-#         return jsonify(macro_list)
-
-#     except Exception as e:
-#         print(f"Error fetching macro data: {e}")
-#         return jsonify({'error': str(e)}), 500
 
 def get_db_connection():
     return db_engine.connect()
@@ -102,7 +87,6 @@ def get_routes():
         print(f"Error fetching routes: {e}")
         return jsonify({"error": str(e)}), 500
 
-
 @app.route('/api/predict', methods=['POST'])
 def predict_route_fare():
     try:
@@ -141,6 +125,20 @@ def predict_route_fare():
 
         executed_nb = nbformat.read(output_path, as_version=4)
 
+        for cell in executed_nb.cells:
+            if cell.cell_type == 'code':
+                for output in cell.get("outputs", []):
+                    if output.output_type == "error":
+                        error_message = output.get("evalue", "")
+                        if "No data found for route" in error_message:
+                            return jsonify({
+                                "error": "Not enough data available to make an accurate prediction about this scenario."
+                            }), 400
+                        else:
+                            return jsonify({
+                                "error": f"Notebook execution error: {error_message}"
+                            }), 500
+
         last_cell = executed_nb.cells[-1]
         predicted_price = None
         actual_price = None
@@ -175,7 +173,6 @@ def predict_route_fare():
     except Exception as e:
         print(f"Error during prediction: {e}")
         return jsonify({"error": str(e)}), 500
-
 
 @app.route('/api/quarterly-fares', methods=['POST'])
 def get_quarterly_fares():
@@ -215,7 +212,6 @@ def get_quarterly_fares():
     except Exception as e:
         print(f"Error fetching quarterly fares: {e}")
         return jsonify({"error": str(e)}), 500
-
 
 @app.route('/api/yearly-fares', methods=['POST'])
 def get_yearly_fares():
@@ -262,7 +258,7 @@ def get_macro_metrics():
         if row is None:
             return jsonify({"error": "No macro data found for the selected date."}), 404
 
-        result = row._mapping  # ✅ Convert to dict-like access
+        result = row._mapping
 
         return jsonify({
             "GDP": result["GDP"],
@@ -273,7 +269,6 @@ def get_macro_metrics():
     except Exception as e:
         print(f"Error in get_macro_metrics: {e}")
         return jsonify({'error': str(e)}), 500
-
 
 @app.route('/', methods=['GET'])
 def home():
