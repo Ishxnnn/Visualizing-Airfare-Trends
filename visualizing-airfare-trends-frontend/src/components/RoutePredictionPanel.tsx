@@ -7,9 +7,16 @@ interface Props {
   arrival: string;
   dateRange: { startDate: Date; endDate: Date };
   onDateChange: (range: { startDate: Date; endDate: Date }) => void;
+  onPredictionResult: (actual: number | null, predicted: number | null) => void;
 }
 
-const RoutePredictionPanel: React.FC<Props> = ({ departure, arrival, dateRange, onDateChange }) => {
+const RoutePredictionPanel: React.FC<Props> = ({
+  departure,
+  arrival,
+  dateRange,
+  onDateChange,
+  onPredictionResult,
+}) => {
   const [selectedEvent, setSelectedEvent] = useState<string>('None');
   const [predictedPrice, setPredictedPrice] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -17,13 +24,12 @@ const RoutePredictionPanel: React.FC<Props> = ({ departure, arrival, dateRange, 
   const handleApply = async () => {
     setLoading(true);
     setPredictedPrice(null);
+    onPredictionResult(null, null);
 
     try {
       const res = await fetch('http://localhost:3000/api/predict', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           departure,
           arrival,
@@ -37,6 +43,7 @@ const RoutePredictionPanel: React.FC<Props> = ({ departure, arrival, dateRange, 
 
       if (res.ok && data.predictedPrice) {
         setPredictedPrice(data.predictedPrice);
+        onPredictionResult(data.actualPrice ?? null, data.predictedPrice);
       } else {
         console.error('Prediction error:', data.error);
       }

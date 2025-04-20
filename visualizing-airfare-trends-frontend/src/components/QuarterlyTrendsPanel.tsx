@@ -5,6 +5,7 @@ interface QuarterlyTrendsPanelProps {
   departure: string;
   arrival: string;
   dateRange: { startDate: Date; endDate: Date };
+  predictedPrice: number | null;
 }
 
 interface QuarterlyDataPoint {
@@ -35,8 +36,17 @@ const getQuarterLabelsInRange = (start: Date, end: Date): Set<string> => {
   return labels;
 };
 
+const isPastDateRange = (end: Date): boolean => {
+  const cutoff = new Date(2024, 2, 31); // March 31, 2024
+  return end <= cutoff;
+};
 
-const QuarterlyTrendsPanel: React.FC<QuarterlyTrendsPanelProps> = ({ departure, arrival, dateRange }) => {
+const QuarterlyTrendsPanel: React.FC<QuarterlyTrendsPanelProps> = ({
+  departure,
+  arrival,
+  dateRange,
+  predictedPrice,
+}) => {
   const [data, setData] = useState<QuarterlyDataPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -51,7 +61,7 @@ const QuarterlyTrendsPanel: React.FC<QuarterlyTrendsPanelProps> = ({ departure, 
         const res = await fetch('http://localhost:3000/api/quarterly-fares', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ departure, arrival })
+          body: JSON.stringify({ departure, arrival }),
         });
 
         const json = await res.json();
@@ -59,7 +69,6 @@ const QuarterlyTrendsPanel: React.FC<QuarterlyTrendsPanelProps> = ({ departure, 
         setData(json);
         setError(null);
 
-        // Auto-scroll to selected range after data loads
         const firstMatchIndex = json.findIndex((item: QuarterlyDataPoint) =>
           selectedLabels.has(item.label)
         );
@@ -106,6 +115,14 @@ const QuarterlyTrendsPanel: React.FC<QuarterlyTrendsPanelProps> = ({ departure, 
             <button className="chart-nav-btn" onClick={handleNext} disabled={endIndex >= data.length}>&gt;</button>
           </div>
           <div className="chart-bars">
+            {predictedPrice !== null && isPastDateRange(dateRange.endDate) && (
+              <div
+                className="actual-price-line"
+                style={{ bottom: `${(predictedPrice / maxValue) * 100}%` }}
+              >
+                <span className="price-label">Predicted: ${predictedPrice.toFixed(2)}</span>
+              </div>
+            )}
             {loading ? (
               <p>Loading...</p>
             ) : error ? (

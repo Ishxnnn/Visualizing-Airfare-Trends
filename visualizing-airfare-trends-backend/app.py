@@ -33,6 +33,35 @@ db_engine = initialize_database()
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": ["http://localhost:5173", "http://127.0.0.1:5173"]}})
 
+def initialize_macro_data():
+    macro_csv_path = os.path.join(base_dir, 'macro_data.csv')
+    if not os.path.exists(macro_csv_path):
+        print("Warning: macro_data.csv not found. Macro data will not be available.")
+        return
+
+    try:
+        macro_df = pd.read_csv(macro_csv_path)
+        macro_df.to_sql('macro_data', engine, if_exists='replace', index=False)
+        print("Macro data initialized.")
+    except Exception as e:
+        print(f"Error initializing macro data: {e}")
+
+initialize_macro_data()
+
+# @app.route('/api/macro-data', methods=['GET'])
+# def get_macro_data():
+#     try:
+#         conn = get_db_connection()
+#         result = pd.read_sql_query("SELECT * FROM macro_data ORDER BY year, quarter", conn)
+#         conn.close()
+
+#         macro_list = result.to_dict(orient="records")
+#         return jsonify(macro_list)
+
+#     except Exception as e:
+#         print(f"Error fetching macro data: {e}")
+#         return jsonify({'error': str(e)}), 500
+
 def get_db_connection():
     return db_engine.connect()
 
@@ -88,7 +117,7 @@ def predict_route_fare():
         if not all([departure, arrival, start_date, end_date]):
             return jsonify({"error": "Missing required fields."}), 400
 
-        notebook_path = os.path.join(base_dir, "dataviz_draft.ipynb")
+        notebook_path = os.path.join(base_dir, "visualization_notebook.ipynb")
         if not os.path.exists(notebook_path):
             return jsonify({"error": "Notebook file not found."}), 500
 
@@ -114,24 +143,34 @@ def predict_route_fare():
 
         last_cell = executed_nb.cells[-1]
         predicted_price = None
+        actual_price = None
 
         if last_cell.cell_type == 'code':
             outputs = last_cell.get("outputs", [])
             for output in outputs:
                 if output.output_type == "stream":
                     try:
-                        predicted_price = float(output.text.strip())
+                        values = output.text.strip().split(',')
+                        predicted_price = float(values[0])
+                        if len(values) > 1 and values[1] != 'None':
+                            actual_price = float(values[1])
                         break
-                    except ValueError:
+                    except (ValueError, IndexError):
                         pass
                 elif output.output_type == "execute_result":
                     try:
-                        predicted_price = float(output["data"]["text/plain"])
+                        values = output["data"]["text/plain"].strip().split(',')
+                        predicted_price = float(values[0])
+                        if len(values) > 1 and values[1] != 'None':
+                            actual_price = float(values[1])
                         break
-                    except (ValueError, KeyError):
+                    except (ValueError, IndexError, KeyError):
                         pass
 
-        return jsonify({"predictedPrice": predicted_price})
+        return jsonify({
+            "predictedPrice": predicted_price,
+            "actualPrice": actual_price
+        })
 
     except Exception as e:
         print(f"Error during prediction: {e}")
@@ -189,7 +228,8 @@ def get_yearly_fares():
         query = text("""
             SELECT Year, AVG(fare) AS avg_fare
             FROM flights
-            WHERE airport_1 = :departure AND airport_2 = :arrival
+            WHERE (airport_1 = :departure AND airport_2 = :arrival)
+            OR (airport_1 = :arrival AND airport_2 = :departure)
             GROUP BY Year
             ORDER BY Year
         """)
@@ -201,6 +241,37 @@ def get_yearly_fares():
 
     except Exception as e:
         print(f"Error in get_yearly_fares: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/macro-metrics', methods=['POST'])
+def get_macro_metrics():
+    try:
+        data = request.get_json()
+        input_date = pd.to_datetime(data.get('date')).to_pydatetime()
+
+        conn = get_db_connection()
+        query = text("""
+            SELECT * FROM macro_data
+            WHERE date <= :input_date
+            ORDER BY date DESC
+            LIMIT 1
+        """)
+        row = conn.execute(query, {"input_date": input_date}).fetchone()
+        conn.close()
+
+        if row is None:
+            return jsonify({"error": "No macro data found for the selected date."}), 404
+
+        result = row._mapping  # ✅ Convert to dict-like access
+
+        return jsonify({
+            "GDP": result["GDP"],
+            "oilPrice": result["Global Oil Price"],
+            "unemploymentRate": result["Unemployment Rate"]
+        })
+
+    except Exception as e:
+        print(f"Error in get_macro_metrics: {e}")
         return jsonify({'error': str(e)}), 500
 
 

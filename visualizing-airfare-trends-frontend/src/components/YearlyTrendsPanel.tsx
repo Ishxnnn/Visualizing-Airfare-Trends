@@ -5,6 +5,7 @@ interface YearlyTrendsPanelProps {
   departure: string;
   arrival: string;
   dateRange: { startDate: Date; endDate: Date };
+  predictedPrice: number | null;
 }
 
 interface YearlyDataPoint {
@@ -22,7 +23,17 @@ const getYearLabelsInRange = (start: Date, end: Date): Set<string> => {
   return years;
 };
 
-const YearlyTrendsPanel: React.FC<YearlyTrendsPanelProps> = ({ departure, arrival, dateRange }) => {
+const isPastYearRange = (end: Date): boolean => {
+  const cutoff = new Date(2024, 11, 31); // Dec 31, 2024
+  return end <= cutoff;
+};
+
+const YearlyTrendsPanel: React.FC<YearlyTrendsPanelProps> = ({
+  departure,
+  arrival,
+  dateRange,
+  predictedPrice,
+}) => {
   const [data, setData] = useState<YearlyDataPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +48,7 @@ const YearlyTrendsPanel: React.FC<YearlyTrendsPanelProps> = ({ departure, arriva
         const res = await fetch('http://localhost:3000/api/yearly-fares', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ departure, arrival })
+          body: JSON.stringify({ departure, arrival }),
         });
 
         const json = await res.json();
@@ -45,7 +56,6 @@ const YearlyTrendsPanel: React.FC<YearlyTrendsPanelProps> = ({ departure, arriva
         setData(json);
         setError(null);
 
-        // ⬇️ Auto-scroll to first selected year
         const firstMatchIndex = json.findIndex((item: YearlyDataPoint) =>
           selectedLabels.has(item.label)
         );
@@ -56,7 +66,6 @@ const YearlyTrendsPanel: React.FC<YearlyTrendsPanelProps> = ({ departure, arriva
         } else {
           setPage(0);
         }
-
       } catch (err: any) {
         console.error('Error fetching yearly fares:', err);
         setError('Failed to load data.');
@@ -83,10 +92,22 @@ const YearlyTrendsPanel: React.FC<YearlyTrendsPanelProps> = ({ departure, arriva
       <h2 className="yearly-trends-heading">Average Yearly Pricing</h2>
       <div className="chart-wrapper">
         <div className="chart-controls">
-          <button className="chart-nav-btn" onClick={handlePrev} disabled={page === 0}>&lt;</button>
-          <button className="chart-nav-btn" onClick={handleNext} disabled={endIndex >= data.length}>&gt;</button>
+          <button className="chart-nav-btn" onClick={handlePrev} disabled={page === 0}>
+            &lt;
+          </button>
+          <button className="chart-nav-btn" onClick={handleNext} disabled={endIndex >= data.length}>
+            &gt;
+          </button>
         </div>
         <div className="chart-bars">
+          {predictedPrice !== null && isPastYearRange(dateRange.endDate) && (
+            <div
+              className="actual-price-line"
+              style={{ bottom: `${(predictedPrice / maxValue) * 100}%` }}
+            >
+              <span className="price-label">Predicted: ${predictedPrice.toFixed(2)}</span>
+            </div>
+          )}
           {loading ? (
             <p>Loading...</p>
           ) : error ? (
