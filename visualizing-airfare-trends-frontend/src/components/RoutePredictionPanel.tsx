@@ -19,7 +19,7 @@ const RoutePredictionPanel: React.FC<Props> = ({ departure, arrival, dateRange, 
     setPredictedPrice(null);
 
     try {
-      const res = await fetch('http://localhost:5000/api/predict', {
+      const res = await fetch('http://localhost:3000/api/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

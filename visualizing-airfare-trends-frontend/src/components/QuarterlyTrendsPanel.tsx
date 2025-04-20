@@ -48,7 +48,7 @@ const QuarterlyTrendsPanel: React.FC<QuarterlyTrendsPanelProps> = ({ departure, 
     const fetchQuarterlyData = async () => {
       try {
         setLoading(true);
-        const res = await fetch('http://localhost:5000/api/quarterly-fares', {
+        const res = await fetch('http://localhost:3000/api/quarterly-fares', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ departure, arrival })

@@ -45,12 +45,8 @@ conda activate visualizing_airfare_trends_backend
 python app.py
 ```
 
-In your web browser, navigate to `http://localhost:5000`.
+In your web browser, navigate to `http://localhost:3000`.
 You should see the message: `Flight Data API is running!`
-
-> **Note for macOS users:**  
-If you encounter an error with port `5000` already in use when starting the backend, try disabling the **AirPlay Receiver** from:  
-**System Settings → General → AirDrop & Handoff → AirPlay Receiver** → **Turn Off** temporarily.
 
 
 ### 3. Frontend Setup (React + Vite)

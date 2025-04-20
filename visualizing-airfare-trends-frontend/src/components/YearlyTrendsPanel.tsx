@@ -34,7 +34,7 @@ const YearlyTrendsPanel: React.FC<YearlyTrendsPanelProps> = ({ departure, arriva
     const fetchYearlyData = async () => {
       try {
         setLoading(true);
-        const res = await fetch('http://localhost:5000/api/yearly-fares', {
+        const res = await fetch('http://localhost:3000/api/yearly-fares', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ departure, arrival })
