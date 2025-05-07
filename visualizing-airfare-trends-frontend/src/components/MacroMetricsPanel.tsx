@@ -34,7 +34,7 @@ const MacroMetricsPanel: React.FC<MacroMetricsPanelProps> = ({ dateRange }) => {
       try {
         setLoading(true);
         setTooFarInFuture(false);
-        const res = await fetch('http://localhost:3000/api/macro-metrics', {
+        const res = await fetch('https://visualizing-airfare-trends-backend.onrender.com/api/macro-metrics', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

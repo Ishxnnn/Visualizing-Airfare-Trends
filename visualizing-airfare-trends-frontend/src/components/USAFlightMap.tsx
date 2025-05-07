@@ -103,7 +103,7 @@ const USAFlightMap: React.FC<USAFlightMapProps> = ({
     const fetchRoutes = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://127.0.0.1:3000/api/routes', {
+        const response = await fetch('https://visualizing-airfare-trends-backend.onrender.com/api/routes', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

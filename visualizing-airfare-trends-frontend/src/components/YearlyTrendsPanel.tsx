@@ -45,7 +45,7 @@ const YearlyTrendsPanel: React.FC<YearlyTrendsPanelProps> = ({
     const fetchYearlyData = async () => {
       try {
         setLoading(true);
-        const res = await fetch('http://localhost:3000/api/yearly-fares', {
+        const res = await fetch('https://visualizing-airfare-trends-backend.onrender.com/api/yearly-fares', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ departure, arrival }),

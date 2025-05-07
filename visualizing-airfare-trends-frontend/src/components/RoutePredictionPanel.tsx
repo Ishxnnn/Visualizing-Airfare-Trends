@@ -29,7 +29,7 @@ const RoutePredictionPanel: React.FC<Props> = ({
     onPredictionResult(null, null);
 
     try {
-      const res = await fetch('http://localhost:3000/api/predict', {
+      const res = await fetch('https://visualizing-airfare-trends-backend.onrender.com/api/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
