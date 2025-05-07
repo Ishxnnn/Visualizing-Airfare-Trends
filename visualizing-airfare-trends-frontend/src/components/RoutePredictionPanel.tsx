@@ -48,7 +48,7 @@ const RoutePredictionPanel: React.FC<Props> = ({
         setPredictionError(null);
         onPredictionResult(data.actualPrice ?? null, data.predictedPrice);
       } else {
-        const message = 'We couldn’t generate a fare prediction because the selected route doesn’t have sufficient data.';
+        const message = 'We couldn’t generate a fare prediction because the selected route and event doesn’t have sufficient data.';
         setPredictionError(message);
       }
     } catch (err) {
