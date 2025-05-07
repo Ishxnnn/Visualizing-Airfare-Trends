@@ -35,12 +35,7 @@ def initialize_database():
 db_engine = initialize_database()
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://visualizing-airfare-trends.vercel.app",
-    "https://www.visualizing-airfare-trends.vercel.app"
-]}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 def initialize_macro_data():
     macro_csv_path = os.path.join(base_dir, 'macro_data.csv')
