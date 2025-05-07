@@ -6,63 +6,17 @@
 
 The application also features a fare prediction engine that leverages a decision tree model to estimate prices based on user-defined routes, dates, and events. In addition to trend graphs and fare forecasts, the system provides economic context by surfacing relevant macro-level metrics like GDP, oil prices, and unemployment rates for the selected date range. With its intuitive interface and data-driven backend, this tool supports both casual exploration and deeper analytical insights into the dynamics of airfare pricing in the U.S.
 
+🔗 Live Site: https://visualizing-airfare-trends.vercel.app
+
+🔌 Backend API (Hosted on Render): https://visualizing-airfare-trends-backend.onrender.com
+
 ![App Overview](screenshots/map-overview.png)
 
 ---
 
-## ⚙️ Installation
-
-Before running this project, ensure you have the following tools installed:
-
-- [Anaconda](https://www.anaconda.com/download) - for the backend environment
-- [Node.js & npm](https://nodejs.org/en/download/) - for running the frontend
-
-### 1. Add the Required Datasets
-
-You will need two CSV files:  
-- `airline_data.csv` – the main flight data  
-- `macro_data.csv` – the combined macroeconomic dataset
-
-Refer to the accompanying `doc/team020_datasets.pdf` document for instructions on how to download or generate these datasets.
-
-Once obtained, ensure both datasets are in the following folder:
-
-`visualizing-airfare-trends/visualizing-airfare-trends-backend/`
-
-### 2. Install Dependencies
-
-#### Backend (Flask + Pandas)
-
-Open a terminal and run the following commands to set up and start the backend:
-
-```bash
-cd visualizing-airfare-trends/visualizing-airfare-trends-backend
-conda env create -f environment.yml
-conda activate visualizing_airfare_trends_backend
-python app.py
-```
-
-This will start the backend server at http://localhost:3000. You should see the message:
-
-`Flight Data API is running!`
-
-#### Frontend (React + Vite)
-
-In a new terminal, run the following to install dependencies and launch the frontend:
-
-```bash
-cd visualizing-airfare-trends/visualizing-airfare-trends-frontend
-npm install --legacy-peer-deps
-npm run dev
-```
-
-The application will be accessible in your browser at http://localhost:5173.
-
 ---
 
 ## 🚀 Execution
-
-Once both the backend and frontend are running, you can access the application at http://localhost:5173.
 
 Here’s how to use the application:
 
@@ -93,3 +47,25 @@ Here’s how to use the application:
    - On the home page, click **“Show All Routes”** to reset the view and select a new route.
 
 This interactive pipeline allows users to explore and compare how airfare changes over time, under different conditions, and between routes — offering both historical insight and predictive power.
+
+---
+
+## 🧠 Tech Stack
+**Frontend:**
+- React + TypeScript + Vite
+- Tailwind CSS
+
+**Backend:**
+- Flask + Pandas + SQLAlchemy
+- SQLite for storage
+- Jupyter Notebook executed via papermill
+
+**ML Model:**
+- Ridge regression pipeline (scikit-learn)
+- Uses categorical + macro features for fare prediction
+
+**Deployment:**
+- Frontend: Vercel
+- Backend: Render
+
+
