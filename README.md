@@ -14,8 +14,6 @@ The application also features a fare prediction engine that leverages a decision
 
 ---
 
----
-
 ## 🚀 Execution
 
 Here’s how to use the application:
