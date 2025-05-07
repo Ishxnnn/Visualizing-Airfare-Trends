@@ -15,20 +15,25 @@ engine = create_engine(f'sqlite:///{db_path}')
 
 def initialize_database():
     print("Initializing database...")
-    csv_path = os.path.join(base_dir, 'airline_data.csv')
+    if os.path.exists(db_path):
+        print("Using existing database.")
+        return engine
 
+    csv_path = os.path.join(base_dir, 'airline_data.csv')
     if not os.path.exists(csv_path):
-        if os.path.exists(db_path):
-            print("CSV not found, using existing DB.")
-            return engine
         raise FileNotFoundError("CSV file missing and DB not found.")
 
-    df = pd.read_csv(csv_path)
-    df.to_sql('flights', engine, if_exists='replace', index=False)
-    print("Database initialized.")
+    chunksize = 50000
+    first_chunk = True
+    for chunk in pd.read_csv(csv_path, chunksize=chunksize, low_memory=False):
+        chunk.to_sql('flights', engine, if_exists='replace' if first_chunk else 'append', index=False)
+        first_chunk = False
+
+    print("Database initialized from CSV.")
     return engine
 
 db_engine = initialize_database()
+
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": ["http://localhost:5173", "http://127.0.0.1:5173"]}})
 
@@ -39,8 +44,9 @@ def initialize_macro_data():
         return
 
     try:
-        macro_df = pd.read_csv(macro_csv_path)
-        macro_df.to_sql('macro_data', engine, if_exists='replace', index=False)
+        df_iter = pd.read_csv(macro_csv_path, chunksize=10000, low_memory=False)
+        for i, chunk in enumerate(df_iter):
+            chunk.to_sql('macro_data', engine, if_exists='replace' if i == 0 else 'append', index=False)
         print("Macro data initialized.")
     except Exception as e:
         print(f"Error initializing macro data: {e}")
@@ -273,7 +279,6 @@ def get_macro_metrics():
 @app.route('/', methods=['GET'])
 def home():
     return "Flight Data API is running!"
-
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 3000))
